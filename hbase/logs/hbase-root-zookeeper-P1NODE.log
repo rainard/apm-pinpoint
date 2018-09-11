@@ -1,0 +1,46 @@
+Mon Sep  3 17:39:55 CST 2018 Starting zookeeper on P1NODE
+core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 31206
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 65535
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 8192
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 31206
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+2018-09-03 17:39:56,466 INFO  [main] quorum.QuorumPeer: Resolved hostname: 172.25.33.232 to address: /172.25.33.232
+2018-09-03 17:39:56,468 INFO  [main] quorum.QuorumPeer: Resolved hostname: 172.25.33.231 to address: /172.25.33.231
+2018-09-03 17:39:56,468 INFO  [main] quorum.QuorumPeer: Resolved hostname: 172.25.33.230 to address: /172.25.33.230
+2018-09-03 17:39:56,468 INFO  [main] quorum.QuorumPeerConfig: Defaulting to majority quorums
+2018-09-03 17:39:56,564 INFO  [main] quorum.QuorumPeerMain: Starting quorum peer
+2018-09-03 17:39:56,574 INFO  [main] server.NIOServerCnxnFactory: binding to port 0.0.0.0/0.0.0.0:2181
+Mon Sep  3 17:43:11 CST 2018 Starting zookeeper on P1NODE
+core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 31206
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 65535
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 8192
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 31206
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+2018-09-03 17:43:11,688 INFO  [main] quorum.QuorumPeer: Resolved hostname: 172.25.33.232 to address: /172.25.33.232
+2018-09-03 17:43:11,689 INFO  [main] quorum.QuorumPeer: Resolved hostname: 172.25.33.231 to address: /172.25.33.231
+2018-09-03 17:43:11,690 INFO  [main] quorum.QuorumPeer: Resolved hostname: 172.25.33.230 to address: /172.25.33.230
+2018-09-03 17:43:11,690 INFO  [main] quorum.QuorumPeerConfig: Defaulting to majority quorums
+2018-09-03 17:43:11,771 INFO  [main] quorum.QuorumPeerMain: Starting quorum peer
+2018-09-03 17:43:11,781 INFO  [main] server.NIOServerCnxnFactory: binding to port 0.0.0.0/0.0.0.0:2181

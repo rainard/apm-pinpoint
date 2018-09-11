@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en-US" class="no-js">
+<head>
+    <title>PINPOINT</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="favicon.png" type="image/png">
+    <link rel="icon" href="favicon.png" type="image/png">
+	<link href='//fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="lib/css/vendor.css?v=1534142012398">
+
+	<link rel="stylesheet" href="lib/css/pinpoint.css?v=1534142012398">
+</head>
+<body ng-app="pinpointApp" style="overflow:hidden;">
+
+<div class="modal"  id="customLogPopup">
+	<div class="modal-dialog modal-lg" style="width:800px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4>Notice</h4>
+			</div>
+			<div class="modal-body"></div>
+		</div>
+	</div>
+</div>
+
+<div id="wrapper" ng-class="wrapperClass" ng-style="wrapperStyle" ng-view=""></div>
+
+<!-- ng-template -->
+<script id="error" type="text/ng-template">
+    <div class="error" style="position:absolute;top:20%;width:90%;margin-left:5%;display:none;z-index:10">
+        <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h2>Error!</h2>
+            <h4 class="msg" style="color:red"></h4>
+			<button class="openDetail" onclick="jQuery('#detailErrorResult').toggle()">+</button>
+			<div class="detail" style="display:none"  id="detailErrorResult">
+				<hr>
+				<table style="width:100%">
+					<tr>
+						<td style="padding-bottom:5px">Method</td>
+						<td class="method" style="padding:0px 0px 5px 20px;color:black"></td>
+					</tr>
+					<tr>
+						<td style="padding-bottom:5px">Header</td>
+						<td class="header" style="padding:0px 0px 5px 20px;color:black"></td>
+					</tr>
+					<tr>
+						<td style="padding-bottom:5px">Parameters</td>
+						<td class="parameters" style="padding:0px 0px 5px 20px;color:black"></td>
+					</tr>
+					<tr>
+						<td style="padding-bottom:5px">URL</td>
+						<td class="url" style="padding:0px 0px 5px 20px;color:black"></td>
+					</tr>
+					<tr>
+						<td style="padding-bottom:5px">Stacktrace</td>
+						<td style="padding:0px 0px 5px 20px;color:black"><textarea class="stacktrace" disabled style="width:100%;height:340px"></textarea></td>
+					</tr>
+				</table>
+			</div>
+        </div>
+    </div>
+</script>
+<script id="warning" type="text/ng-template">
+    <div class="warning" style="position:absolute;top:38%;width:90%;margin-left:5%;display:none;z-index:10">
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Warning!</h4>
+
+            <div class="msg"></div>
+        </div>
+    </div>
+</script>
+<script id="info" type="text/ng-template">
+    <div class="info" style="position:absolute;top:38%;width:90%;margin-left:5%;display:none;z-index:10">
+        <div class="alert alert-info">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Info</h4>
+
+            <div class="msg"></div>
+        </div>
+    </div>
+</script>
+<script id="loading" type="text/ng-template">
+	<div>
+		<div style="position:absolute;top:0px;left:0px;width:100%;height:100%;background-color:#0000FF;opacity:0.1;z-index:9;display:none" class="progress-back">&nbsp;</div>
+    	<div class="progress progress-striped" style="position:absolute;top:50%;width:90%;margin-left:5%;display:none;z-index:10">
+       		<div class="bar progress-bar progress-bar-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+    	</div>
+	</div>
+</script>
+<script id="sidebarLoading" type="text/ng-template">
+    <div class="cg-busy cg-busy-animation ng-hide" ng-show="!!showLoading" style="z-index:1000">
+        <div class="cg-busy cg-busy-backdrop"></div>
+        <div class="cg-busy-default-wrapper" style="position: absolute; top: 0px; left: 0px; right: 0px; bottom: 0px;">
+            <div class="cg-busy-default-sign">
+                <div class="cg-busy-default-spinner">
+                    <div class="bar1"></div>
+                    <div class="bar2"></div>
+                    <div class="bar3"></div>
+                    <div class="bar4"></div>
+                    <div class="bar5"></div>
+                    <div class="bar6"></div>
+                    <div class="bar7"></div>
+                    <div class="bar8"></div>
+                    <div class="bar9"></div>
+                    <div class="bar10"></div>
+                    <div class="bar11"></div>
+                    <div class="bar12"></div>
+                </div>
+                <div class="cg-busy-default-text ng-binding">{{loadingMessage}}</div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!-- Modal -->
+<div id="supported-browsers" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">Ã</button>
+        <h3 id="myModalLabel">Supported Browsers</h3>
+    </div>
+    <div class="modal-body">
+        <div class="main-section--answer main-section content-container"><p>You can access PinPoint via a browser
+            installed on a PC, Mac, or Linux computer.</p>
+
+            <h4>To get the latest PinPoint features, use a supported browser</h4>
+
+            <p>In general, PinPoint supports the current and prior major release of Chrome, Firefox, Internet Explorer
+                and Safari on a rolling basis. If you use a browser other than those listed below, please install the
+                one of them.</p>
+
+            <ul>
+                <li>Google Chrome <a href="http://www.google.com/chrome" target="_blank">download</a></li>
+                <li>Firefox <a href="http://www.mozilla.org/firefox" target="_blank">download</a></li>
+                <li>Internet Explorer <a href="http://windows.microsoft.com/en-US/internet-explorer/download-ie"
+                                         target="_blank">download</a></li>
+                <li>Safari <a href="http://www.apple.com/safari" target="_blank">download</a></li>
+            </ul>
+
+            <h4>To use PinPoint, enable cookies and JavaScript</h4>
+
+            <p>Regardless of your browser type, you must have cookies enabled to use PinPoint. Also, if your browser
+                supports it, enable JavaScript.</p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+</div>
+
+<configuration-directive></configuration-directive>
+<thread-dump-info-layer-directive></thread-dump-info-layer-directive>
+
+<script src="lib/js/base-lib.min.js?v=1534142012398"></script>
+
+<script src="lib/js/angular-lib.min.js?v=1534142012398"></script>
+
+<script src="lib/js/util-lib.min.js?v=1534142012398"></script>
+
+<script src="lib/js/draw-lib.min.js?v=1534142012398"></script>
+
+<script src="lib/js/pinpoint-component.min.js?v=1534142012398"></script>
+
+<script src="scripts/extra/google-analytics.js?v=1534142012398"></script>
+<script src="scripts/app.js?v=1534142012398"></script>
+
+<script src="lib/js/pinpoint.min.js?v=1534142012398"></script>
+
+<script>
+	G_BUILD_TIME = "1534142012398";
+</script>
+</body>
+</html>

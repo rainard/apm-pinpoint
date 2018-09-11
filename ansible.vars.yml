@@ -1,0 +1,69 @@
+src_path: /opt/apm
+desc_path: /opt/apm 
+template_path: /opt/apm/templates
+  
+# zookeeper
+zoo_server:
+  - server.1=172.25.33.230:2888:3888
+  - server.2=172.25.33.231:2888:3888
+  - server.3=172.25.33.232:2888:3888
+zoo_ids:
+  myid_1_ip: 172.25.33.230
+  myid_2_ip: 172.25.33.231
+  myid_3_ip: 172.25.33.232
+  
+cluster_zookeeper_address: 172.25.33.230,172.25.33.231,172.25.33.232
+
+# hadoop base
+fs_default_name: hdfs://172.25.33.230:9000
+hadoop_tmp_dir: file:/data/hadoop/tmp
+java_home: /usr/local/apm/java
+dfs_name_dir: file:/data/hadoop/name
+dfs_data_dir: file:/data/hadoop/data
+dfs_replication: 2
+hadoop_slaves:
+  - 172.25.33.231
+  - 172.25.33.232
+yarn_resourcemanager_hostname: 172.25.33.230
+
+# hbase
+hbase_classpath: /usr/local/apm/hadoop
+hbase_master: 172.25.33.230
+hbase_rootdir: hdfs://172.25.33.230:9000/hbase
+hbase_regionservers: 
+  - 172.25.33.231
+  - 172.25.33.232
+
+# pinpoint-collector
+flink_cluster_zookeeper_address: 172.25.33.230,172.25.33.231,172.25.33.232
+hbase_client_host: 172.25.33.230,172.25.33.231,172.25.33.232
+
+## pinpoint-web jdbc config
+jdbc_driverClassName: com.mysql.jdbc.Driver
+jdbc_url: jdbc:mysql://172.25.33.230:3306/pinpoint?characterEncoding=UTF-8
+jdbc_user: root
+jdbc_password: test
+
+### pinpoint-web.properties
+admin_password: admin
+config_show_applicationStat: true
+# batch.properties
+batch_enable: true
+batch_server_ip: 127.0.0.1
+batch_flink_server: 172.25.33.230,172.25.33.231,172.25.33.232
+
+# flink
+jobmanager_rpc_address: 172.25.33.230 
+high_availability_storageDir: hdfs://172.25.33.230:9000/flink/ha/
+high_availability_zookeeper_quorum: 172.25.33.230:2181,172.25.33.231:2181,172.25.33.232:2181
+high_availability_jobmanager_port: 51000-51010
+flink_masters:
+  - 172.25.33.230:8081
+  - 172.25.33.231:8081
+  - 172.25.33.232:8081
+flink_slaves:
+  - 172.25.33.231
+  - 172.25.33.232
+  
+# pinpoint-agent
+profiler_collector_ip: 172.25.33.230

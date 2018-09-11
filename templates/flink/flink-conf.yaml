@@ -1,0 +1,11 @@
+jobmanager.rpc.address: {{ jobmanager_rpc_address }}
+jobmanager.rpc.port: 6123
+jobmanager.heap.mb: 1024
+taskmanager.heap.mb: 1024
+taskmanager.numberOfTaskSlots: 8
+taskmanager.memory.preallocate: false
+parallelism.default: 2
+high-availability: zookeeper
+high-availability.storageDir: {{ high_availability_storageDir }}
+high-availability.zookeeper.quorum: {{ high_availability_zookeeper_quorum }}
+high-availability.jobmanager.port: {{ high_availability_jobmanager_port }}

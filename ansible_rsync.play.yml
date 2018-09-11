@@ -1,0 +1,103 @@
+---
+- hosts: 172.25.33.231
+  vars_files: 
+    - ansible.vars.yml
+    
+  user: root
+  tasks:
+  - name: rsync apm dir
+    synchronize:
+      src: "{{ src_path }}/"
+      dest: " {{ desc_path }}/"
+      recursive: true
+      links: true
+      checksum: yes
+      verify_host: yes
+      delete: yes
+      rsync_opts:
+        - "--exclude=*/log/"
+        - "--exclude=*/logs/"
+        - "--exclude=*/temp"
+        - "--exclude=*/work"
+        - "--exclude=ansible*" 
+        - "--exclude=*.out"
+        - "--exclude=template"
+        - "--delete-after" 
+  
+  - name rsync system profile
+    synchronize: 
+      src: "{{ src_path }}/templates/sys/profile"
+      dest: /etc/profile
+      checksum: yes
+      verify_host: yes
+  
+  # create base directory
+  - name: create zookeeper directory
+    command: /bin/mkdir -p /data/zookeeper/data && /bin/mkdir -p /data/zookeeper/data/log
+    args:
+      creates: /data/zookeeper
+      
+  - name: create hadoop directory
+    command: /bin/mkdir -p /data/hadoop/data && /bin/mkdir -p /data/hadoop/name/ && /bin/mkdir -p /data/hadoop/tmp
+    args:
+      creates: /data/hadoop
+  
+  
+  # zookeeper
+  - name: zookeeper zoo.cnf  template 
+    template: src={{ src_path }}/templates/zookeeper/zoo.cfg  dest={{ desc_path }}/zookeeper/conf/zoo.cfg 
+  - name: zookeeper myid  template 
+    template: src={{ src_path }}/templates/zookeeper/myid  dest=/tmp/myid 
+  
+  # collector config
+  - name: pinpoint-collector.properties template 
+    template: src={{ src_path }}/templates/collector/pinpoint-collector.properties dest={{ desc_path }}/pinpoint-controller-tomcat/webapps/ROOT/WEB-INF/classes/pinpoint-collector.properties
+  - name: pinpoint-collector hbase.properties template 
+    template: src={{ src_path }}/templates/collector/hbase.properties dest={{ desc_path }}/pinpoint-controller-tomcat/webapps/ROOT/WEB-INF/classes/hbase.properties
+    
+  ## web admin config
+  - name: pinpoint-web hbase.properties template 
+    template: src={{ src_path }}/templates/web/hbase.properties dest={{ desc_path }}/pinpoint-web-tomcat/webapps/ROOT/WEB-INF/classes/hbase.properties
+  - name: pinpoint-web jdbc.properties template 
+    template: src={{ src_path }}/templates/web/jdbc.properties dest={{ desc_path }}/pinpoint-web-tomcat/webapps/ROOT/WEB-INF/classes/jdbc.properties
+  - name: pinpoint-web pinpoint-web.properties template 
+    template: src={{ src_path }}/templates/web/pinpoint-web.properties dest={{ desc_path }}/pinpoint-web-tomcat/webapps/ROOT/WEB-INF/classes/pinpoint-web.properties
+  - name: pinpoint-web batch.properties template 
+    template: src={{ src_path }}/templates/web/batch.properties dest={{ desc_path }}/pinpoint-web-tomcat/webapps/ROOT/WEB-INF/classes/batch.properties
+   
+  # hadoop 
+  - name: hadoop  core-site.xml template 
+    template: src={{ src_path }}/templates/hadoop/core-site.xml  dest={{ desc_path }}/hadoop/etc/hadoop/core-site.xml 
+  - name: hadoop  hadoop-env.sh template 
+    template: src={{ src_path }}/templates/hadoop/hadoop-env.sh  dest={{ desc_path }}/hadoop/etc/hadoop/hadoop-env.sh   
+  - name: hadoop  hdfs-site.xml template 
+    template: src={{ src_path }}/templates/hadoop/hdfs-site.xml  dest={{ desc_path }}/hadoop/etc/hadoop/hdfs-site.xml
+  - name: hadoop  slaves template 
+    template: src={{ src_path }}/templates/hadoop/slaves  dest={{ desc_path }}/hadoop/etc/hadoop/slaves 
+  - name: hadoop  yarn-site.xml template 
+    template: src={{ src_path }}/templates/hadoop/yarn-site.xml  dest={{ desc_path }}/hadoop/etc/hadoop/yarn-site.xml     
+    
+  # hbase
+  - name: hbase  hbase-env.sh template 
+    template: src={{ src_path }}/templates/hbase/hbase-env.sh  dest={{ desc_path }}/hbase/conf/hbase-env.sh  
+  - name: hbase  hbase-site.xml template 
+    template: src={{ src_path }}/templates/hbase/hbase-site.xml  dest={{ desc_path }}/hbase/conf/hbase-site.xml  
+  - name: hbase  regionservers template 
+    template: src={{ src_path }}/templates/hbase/regionservers  dest={{ desc_path }}/hbase/conf/regionservers     
+    
+  # flink  
+  - name: flink-conf.yaml  template 
+    template: src={{ src_path }}/templates/flink/flink-conf.yaml  dest={{ desc_path }}/flink/conf/flink-conf.yaml  
+  - name: flink masters  template 
+    template: src={{ src_path }}/templates/flink/masters  dest={{ desc_path }}/flink/conf/masters  
+  - name: flink slave  template 
+    template: src={{ src_path }}/templates/flink/slaves  dest={{ desc_path }}/flink/conf/slaves
+    
+  # pinpoint-agent
+  - name: pinpoint-agent  pinpoint.config  template 
+    template: src={{ src_path }}/templates/agent/pinpoint.config  dest={{ desc_path }}/pinpoint-agent/pinpoint.config  
+  
+  
+    
+    
+  

@@ -1,0 +1,8 @@
+{% if zoo_ids.myid_1_ip == ansible_default_ipv4.address %}
+1
+{% elif zoo_ids.myid_2_ip == ansible_default_ipv4.address %}
+2
+{% elif zoo_ids.myid_3_ip == ansible_default_ipv4.address %}
+{% else %}
+-1
+{% endif %}

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.navercorp.pinpoint.web.dao.UserDao">
+
+    <select id="dropAndCreateUserTable">
+        TRUNCATE puser;
+    </select>
+    
+    <insert id="insertUser" parameterType="User">
+        INSERT INTO puser (user_id, name, department, phonenumber, email)
+        VALUES (#{userId}, #{name}, #{department}, #{phoneNumber}, #{email})
+    </insert>
+       
+    <insert id="insertUserList">
+            INSERT INTO puser (user_id, name, department, phonenumber, email)
+            VALUES
+        <foreach collection="list" item="User" separator=",">
+             (#{User.userId}, #{User.name}, #{User.department}, #{User.phoneNumber}, #{User.email})
+        </foreach>
+    </insert>
+    
+    <delete id="deleteUser" parameterType="User">
+        DELETE
+        FROM puser
+        WHERE user_id = #{userId} 
+    </delete>
+    
+    <select id="selectUserList" resultType="User">
+        SELECT *
+        FROM puser
+    </select>
+
+    <select id="selectUserByUserId" resultType="User">
+        SELECT *
+        FROM puser
+        WHERE user_id = #{userId}
+    </select>
+
+    <select id="selectUserByDepartment" resultType="User">
+        SELECT *
+        FROM puser
+        WHERE department = #{department} 
+        ORDER BY name
+    </select>
+
+    <select id="selectUserByUserName" resultType="User">
+        SELECT *
+        FROM puser
+        WHERE name = #{name} 
+        ORDER BY department
+    </select>
+    
+    <update id="updateUser" parameterType="User">
+        UPDATE puser
+        SET name = #{name}, department = #{department}, phoneNumber = #{phoneNumber}, email = #{email}
+        WHERE user_id = #{userId}
+    </update>
+</mapper>
