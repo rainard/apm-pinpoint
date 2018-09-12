@@ -1,5 +1,5 @@
 src_path: /opt/apm
-desc_path: /opt/apm 
+desc_path: /usr/local/apm 
 template_path: /opt/apm/templates
   
 # zookeeper
